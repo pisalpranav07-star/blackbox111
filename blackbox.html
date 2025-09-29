@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>WebSocket Chat</title>
+  <style>
+    body { font-family: Arial; }
+    #messages { list-style: none; padding: 0; }
+    #messages li { margin-bottom: 5px; }
+  </style>
+</head>
+<body>
+  <h2>WebSocket Chat</h2>
+  <ul id="messages"></ul>
+  <input id="messageInput" placeholder="Type message..." autocomplete="off"/>
+  <button onclick="sendMessage()">Send</button>
+
+  <script>
+    let username = prompt("Enter your username:");
+
+    // Replace with your Render URL
+    const socket = new WebSocket(`wss://${window.location.host}`);
+
+    socket.onopen = () => {
+      addMessage('Connected to server');
+      socket.send(username); // Send username first
+    };
+
+    socket.onmessage = (event) => addMessage(event.data);
+
+    socket.onclose = () => addMessage('Disconnected from server');
+
+    socket.onerror = (error) => addMessage('Error: ' + error.message);
+
+    function sendMessage() {
+      const input = document.getElementById('messageInput');
+      const msg = input.value;
+      if (msg) {
+        socket.send(msg);
+        input.value = '';
+      }
+    }
+
+    function addMessage(msg) {
+      const ul = document.getElementById('messages');
+      const li = document.createElement('li');
+      li.textContent = msg;
+      ul.appendChild(li);
+    }
+  </script>
+</body>
+</html>

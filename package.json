@@ -1,0 +1,14 @@
+{
+  "name": "websocket-chat",
+  "version": "1.0.0",
+  "description": "A WebSocket chat server with profile pictures",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "ws": "^8.16.0"
+  }
+}
